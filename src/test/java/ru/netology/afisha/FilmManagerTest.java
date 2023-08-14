@@ -20,22 +20,55 @@ public class FilmManagerTest {
         FilmManager manager = new FilmManager();
 
         manager.addNewFilm("Film1");
+        manager.addNewFilm("Film2");
 
-        String[] expected = {"Film1"};
+        String[] expected = {"Film1", "Film2"};
         String[] actual = manager.findAll();
 
         Assertions.assertArrayEquals(expected, actual);
     }
 
     @Test
-    public void shouldShowLastAdded() {
-        FilmManager manager = new FilmManager();
+    public void shouldShowLastAddedUnderLimit() {
+        FilmManager manager = new FilmManager(3);
 
         manager.addNewFilm("Film1");
         manager.addNewFilm("Film2");
 
 
         String[] expected = {"Film2", "Film1"};
+        String[] actual = manager.findLast();
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldShowLastAddedEqualsLimit() {
+        FilmManager manager = new FilmManager(3);
+
+        manager.addNewFilm("Film1");
+        manager.addNewFilm("Film2");
+        manager.addNewFilm("Film3");
+
+
+        String[] expected = {"Film3", "Film2", "Film1"};
+        String[] actual = manager.findLast();
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldShowLastAddedOverLimit() {
+        FilmManager manager = new FilmManager(3);
+
+        manager.addNewFilm("Film1");
+        manager.addNewFilm("Film2");
+        manager.addNewFilm("Film3");
+        manager.addNewFilm("Film4");
+        manager.addNewFilm("Film5");
+
+
+        String[] expected = {"Film5", "Film4", "Film3"};
         String[] actual = manager.findLast();
 
         Assertions.assertArrayEquals(expected, actual);
